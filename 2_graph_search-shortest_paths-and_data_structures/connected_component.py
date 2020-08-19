@@ -14,9 +14,6 @@ def kosaraju_algorithm(n, edges, reverse_edges):
     keeper = []
     stack = deque()
     explored = [False for i in range(n)]
-    track = 0
-
-
 
     # traversing through reverse graph
     while not all(explored):
@@ -36,8 +33,6 @@ def kosaraju_algorithm(n, edges, reverse_edges):
                     explored[node-1] = True
                     keeper.append(node)
                     stack.pop()
-                    print(track)
-                    track+=1
 
         # when stack gets empty but all nodes are not travlled
         for i in range(n):
@@ -68,15 +63,12 @@ def kosaraju_algorithm(n, edges, reverse_edges):
                     node = stack[-1]
                     explored[node-1] = True
                     scc[count].append(node)
-                    print(track)
-                    track-=1
                     stack.pop()
         count+=1
         # when stack gets empty but all nodes are not travlled
         for i in range(n-1, -1, -1):
             node = keeper[i]
             if not explored[node-1]:
-                # node = keeper[i]
                 stack.append(node)
                 break
 

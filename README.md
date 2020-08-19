@@ -1,4 +1,4 @@
-# algorithms-specilaization
+algorithms-specilaization
 This repository has all the codes and assignment from coursera algorithm specilizations.
 Specialization link: https://www.coursera.org/specializations/algorithms
 This specialization has 4 courses:
