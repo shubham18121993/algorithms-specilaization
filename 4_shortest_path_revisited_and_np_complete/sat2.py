@@ -82,7 +82,7 @@ for i in range(1, 7):
                     stack.append(node)
                     break
 
-        print('aaaa')
+        print('part1_done')
         scc = defaultdict(list)
         stack = deque()
         explored = [False for _ in range(total_nodes)]

@@ -17,10 +17,10 @@ and find all points whose x coordinate is closer than d. Build an array
 strip[] of all such points.
 4) Sort the array strip[] according to y coordinates. This step is
 O(nLogn), optimized to O(n) by using sorted array on Y coordinates.
-6) Now we only need to check at most 7 points after it (note that strip
+5) Now we only need to check at most 7 points after it (note that strip
 is sorted according to Y coordinate)
-7) Finally return the minimum of d and distance calculated in the above
-step (step 6)
+6) Finally return the minimum of d and distance calculated in the above
+step (step 5)
 Time Complexity Let Time complexity of above algorithm be T(n).
 Let us assume that we use a O(nLogn) sorting algorithm.
 The above algorithm divides all points in two sets and recursively calls
