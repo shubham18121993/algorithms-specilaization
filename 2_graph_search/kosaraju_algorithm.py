@@ -34,7 +34,7 @@ def kosaraju_algorithm(n, edges, reverse_edges):
                     keeper.append(node)
                     stack.pop()
 
-        # when stack gets empty but all nodes are not travlled
+        # when stack gets empty but all nodes are not travelled
         for i in range(n):
             if not explored[i]:
                 node = i+1

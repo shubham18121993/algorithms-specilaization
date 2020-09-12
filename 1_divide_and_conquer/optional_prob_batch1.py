@@ -1,29 +1,22 @@
 """
 This contains solutions of optional problem from algorithsm.
-
 Link:
 https://www.coursera.org/learn/algorithms-divide-conquer/supplement/
 Geunn/optional-theory-problems-batch-1
 """
 
-"""
-Problem 1:
-You are given as input an unsorted array of n distinct numbers, where n
-is a power of 2. Give an algorithm that identifies the second-largest
-number in the array, and that uses at most n +logn(base2)-2
-comparisons.
-"""
+# Problem 1:
+# You are given as input an unsorted array of n distinct numbers, where n
+# is a power of 2. Give an algorithm that identifies the second-largest
+# number in the array, and that uses at most n +logn(base2)-2 comparisons.
+# Solution
+# n/2 -1  and n/2-1
+# a1, a2 (a1 > a2) 
+# b1, b2 (b1 > b2)  (3 comparisons)
+# n = 2^m
+# nth level n/2 comp
 
 """
-Solution
-n/2 -1  and n/2-1
-
-a1, a2 (a1 > a2) 
-b1, b2 (b1 > b2)  (3 comparisons)
-n = 2^m
-n th level n/2 comp
-"""
-
 from collections import defaultdict
 import random
 
@@ -33,7 +26,6 @@ arr_dic = defaultdict(list)
 
 
 def get_second_max(arr):
-    global arr_dic
     if len(arr) == 2:
         if arr[0] > arr[1]:
             values = arr_dic[arr[0]]
@@ -79,7 +71,7 @@ if __name__ == "__main__":
     max1, comp = get_max(arr)
     max2, _ = get_max(comp)
     print(max2)
-
+"""
 
 """
 Problem2:
@@ -88,7 +80,7 @@ its entries are in increasing order up until its maximum element,
 after which its elements are in decreasing order. Give an algorithm to
 compute the maximum element that runs in O(log n) time.
 """
-
+"""
 def get_max(arr):
     n = len(arr)
     if n ==1:
@@ -114,7 +106,7 @@ if __name__ == "__main__":
     arr_2 = [x for x in range(1500, 1000, -1)]
     arr = arr_1 + arr_2
     print(get_max(arr))
-
+"""
 
 """
 Problem Statement
@@ -122,12 +114,10 @@ You are given a sorted (from smallest to largest) array A of n distinct
 integers which can be positive, negative, or zero. You want to decide
 whether or not there is an index i such that A[i] = i. Design the
 fastest algorithm that you can for solving this problem.
-"""
-
-"""
 Solution: log(n)
 """
 
+"""
 def find_elem(arr, start):
     print(arr)
     print(start)
@@ -151,7 +141,7 @@ if __name__ == "__main__":
     arr = [-1, 0, 1, 2, 3, 4, 5, 7, 10]
     print(find_elem(arr, 0))
 
-
+"""
 
 
 """
@@ -179,37 +169,83 @@ in which minimum elem lies
 import numpy as np
 
 
-def find_local_minimum(arr, ir, ic):
+def find_local_minimum(arr, x, y):
+    print(arr)
     # def borderline cases
-    rows, cols = arr.shape
-    if rows ==1 or cols ==1:
-        return min(arr)
+    num_rows, num_cols = arr.shape
+    if num_rows ==1 or num_cols ==1:
+        return np.amin(arr)
 
     # recursion code
-    col = np.argmin(arr[ir, :])
-    row = np.argmin(arr[ir, :])
+    col = np.argmin(arr[x, :])
+    row = np.argmin(arr[:, y])
 
-    if row==ir and col==ic:
-        return arr[ir][ic]
+    if row==x and col==y:
+        return arr[x, y]
     else:
-        if arr[ir][col] < arr[row][ic]:
-            if arr[ir][col] < arr[ir][col-1] and arr[ir][col] < arr[ir][col-1]:
-                return arr[ir][col]
+        try:
+            xl = arr[x-1, col]
+        except:
+            xl = np.inf
+
+        try:
+            xr = arr[x+1, col]
+        except:
+            xr = np.inf
+
+        try:
+            yl = arr[row, y-1]
+        except:
+            yl = np.inf
+        
+        try:
+            yr = arr[row, y+1]
+        except:
+            yr = np.inf
+
+        # when min in row
+        if arr[x, col] < arr[row, y]:
+            if arr[x, col] < xl and arr[x, col] < xr:
+                return arr[x, col]
             else:
-                if arr[ir][col-1] < arr[ir][col+1]:
-                    return find_local_minimum(arr[:ir, :ic])
+                if xl < xr:
+                    x2 = x//2
+                    if col < y:
+                        return find_local_minimum(arr[:x, :y], x2, col)
+                    else:
+                        return find_local_minimum(arr[:x, y:], x2, col-y)
                 else:
-                    return find_local_minimum(arr[:ir, ic+1:])
-                if arr[ir][col] < arr[row][ic]:
-        else:
-            if arr[ir][col] < arr[ir][col-1] and arr[ir][col] < arr[ir][col-1]:
-                return arr[ir][col]
+                    x2 = (num_rows - x)//2
+                    if col < y:
+                        return find_local_minimum(arr[x:, :y], x2, col)
+                    else:
+                        return find_local_minimum(arr[x:, y:], x2, col-y)
+        
+        # when min in column
+        else: 
+            if arr[row, y] < yl and arr[row, y] < yr:
+                return arr[row, y]
             else:
-                if arr[ir][col-1] < arr[ir][col+1]:
-                    return find_local_minimum(arr[:ir, :ic])
+                if yl < yr:
+                    y2 = y//2
+                    if row < x:
+                        return find_local_minimum(arr[:x, :y], row, y2)
+                    else:
+                        return find_local_minimum(arr[x:, :y], row-x, y2)
                 else:
-                    return find_local_minimum(arr[:ir, :ic])
+                    y2 = (num_cols -y) //2
+                    if row < x:
+                        return find_local_minimum(arr[:x, y:], row, y2)
+                    else:
+                        return find_local_minimum(arr[x:, y:], row-x, y2)
 
 
 if __name__ == "__main__":
-    arr = np.array(arr, ir, ic)
+    arr = np.random.randint(1,900, size=(15,15))
+
+    # arr = np.array([[1, 2, 3, 4], [4, 5, 6, 7], [7, 8, 9, 10]])
+    row, col = arr.shape
+    arr[row//2, :] = np.random.randint(300,900, size=(15))
+    arr[:, col//2] = np.random.randint(300,900, size=(15))
+    local_min = find_local_minimum(arr, row//2, col//2)
+    print(f"local_min: {local_min}")

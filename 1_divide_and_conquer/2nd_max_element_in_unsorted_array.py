@@ -26,7 +26,6 @@ arr_dic = defaultdict(list)
 
 
 def get_second_max(arr):
-	global arr_dic
 	if len(arr) == 2:
 		if arr[0] > arr[1]:
 			values = arr_dic[arr[0]]

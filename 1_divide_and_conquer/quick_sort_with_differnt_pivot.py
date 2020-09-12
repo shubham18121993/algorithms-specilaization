@@ -46,7 +46,6 @@ def quick_sort_last_pivot(lst):
 
 
 def quick_sort_median_pivot(lst):
-    # last element as pivot
     n = len(lst)
     inversions = n-1
     if n <= 1:

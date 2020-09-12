@@ -9,7 +9,6 @@ max_heap = []
 
 
 def insert_min(elem):
-    global min_heap
     l = len(min_heap)
     min_heap.append(elem)
     while min_heap[l] < min_heap[((l+1)//2)-1]:
@@ -20,7 +19,6 @@ def insert_min(elem):
     return
 
 def pop_min():
-    global min_heap
     min_heap[0], min_heap[-1] = min_heap[-1], min_heap[0]
     elem = min_heap.pop()
     l1 = 0
@@ -43,7 +41,6 @@ def pop_min():
     return elem
 
 def insert_max(elem):
-    global max_heap
     l = len(max_heap)
     max_heap.append(elem)
     while max_heap[l] > max_heap[((l+1)//2)-1]:
@@ -54,7 +51,6 @@ def insert_max(elem):
     return
 
 def pop_max():
-    global max_heap
     max_heap[0], max_heap[-1] = max_heap[-1], max_heap[0]
     elem = max_heap.pop()
     l1 = 0
@@ -78,8 +74,6 @@ def pop_max():
 
 
 def get_median(elem, track):
-    global min_heap
-    global max_heap
 
     if track==1:
         max_heap.append(elem)
@@ -98,12 +92,6 @@ def get_median(elem, track):
         insert_min(elem)
     else:
         insert_max(elem)
-    # else:
-    #     if track%2==0:
-    #         insert_min(elem)
-    #     else:
-    #         insert_max(elem)
-    #     return max_heap[0]
 
     l1 = len(max_heap)
     l2 = len(min_heap)
@@ -119,7 +107,7 @@ def get_median(elem, track):
 
 
 if __name__ == "__main__":
-    with open('Median.txt', 'r') as f0:
+    with open('../../dataset/course2/Median.txt', 'r') as f0:
         lines = f0.readlines()
     track = 0
     with open('median_valus.txt', 'w') as f1:

@@ -1,7 +1,7 @@
 """
+Programming Assignment #2
 This modules counts number of inversions in an array.
 An inversion is defined as for any i < j if array[i] > array[j].
-
 This module uses merge sort to do that, so at cost of O(n*logn)
 """
 
