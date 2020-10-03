@@ -1,23 +1,13 @@
 """
 This file contains johnson algorithm.
 Running time O(mnlogn)
-"""
-import numpy as np
-from collections import defaultdict
-import time
 
+Bellman Ford Algorithm:
+1) single source shortest path algo, runs in O(mn)
+2) no negative cycle allowed
+3) notifies if there is any negative cycle
+4) negative edge costs allowed
 
-# reading edges from text file
-with open('E:/Personal/StudyMaterial/CoursesAndSpecializations/Algorithms/dataset/course4/g3.txt', 'r') as f0:
-    lines = f0.readlines()
-    edges = defaultdict(list)
-    node_count, edge_count = map(int, lines[0].strip().split(" "))
-
-    for row in lines[1:]:
-        tail, head, edge_cost = map(int, row.strip().split(" "))
-        edges[tail].append((head, edge_cost))
-
-"""
 # Test case
 node_count = 6
 edges = {
@@ -29,11 +19,23 @@ edges = {
     6: [(4, 1), (5, -4)],
 }
 """
+import numpy as np
+from collections import defaultdict
+import time
 
-# single source shortest path algo, runs in O(mn)
-# no negative cycle allowed
-# notifies if there is any negative cycle
-# negative edge costs allowed
+
+# reading edges from text file
+with open('../../dataset/course4/g3.txt', 'r') as f0:
+    lines = f0.readlines()
+    edges = defaultdict(list)
+    node_count, edge_count = map(int, lines[0].strip().split(" "))
+
+    for row in lines[1:]:
+        tail, head, edge_cost = map(int, row.strip().split(" "))
+        edges[tail].append((head, edge_cost))
+
+
+# bellman ford algorithm
 def bellman_ford_algo(s=0, node_count=1, edges=[]):
     node_count += 1
     track = np.zeros((node_count + 1, node_count))
