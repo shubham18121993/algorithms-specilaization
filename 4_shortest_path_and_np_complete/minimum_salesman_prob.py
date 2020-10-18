@@ -39,45 +39,46 @@ for i in range(num_of_locations):
         if i != j:
             distances[i, j] = euclidean_distance(locations[i], locations[j])
 
+print(distances)
+
 def shortest_route(num_of_locations, distances):
+    total_des = num_of_locations-1  # start from point 0
+    array_size = pow(2, total_des)
+
     shortest_distance = np.full(
-        (pow(2, num_of_locations), num_of_locations), np.inf
+        (array_size, total_des), np.inf
     )
-    shortest_distance[1, 0] = 0.0
 
-    for subset in range(1, pow(2, num_of_locations)):
-        bin_repr = bin(subset)
-        bin_repr = list(bin_repr[2:])
-        length = len(bin_repr)
-        for i in range(length//2):
-            bin_repr[i], bin_repr[length-i-1] = bin_repr[length-i-1], bin_repr[i]
+    # shortest_distance[0, 0] = 0.0
 
-        for destination, val in enumerate(bin_repr):
-            if destination == 0 and val == "0":
-                break
-            elif destination == 0:
-                pass
+    for curr in range(1, array_size):
+        bin_repr = bin(curr)
+        bin_repr = list(bin_repr[2:].rjust(total_des, '0'))
+
+        for point, val in enumerate(reversed(bin_repr)):  
+            if val == "1":
+                temp = bin_repr[:]
+                temp[total_des -1 - point] = '0'
+                prev = int("".join(temp[:]), 2)
+                
+                if prev == 0:
+                    shortest_distance[curr, point] = distances[0, point+1]
+                
+                for last_point, bit in enumerate(reversed(temp)):
+                    if bit == "1":
+                        shortest_distance[curr, point] = min(
+                            shortest_distance[curr, point],
+                            shortest_distance[prev, last_point]
+                            + distances[last_point+1, point+1]
+                        )
+
             else:
-                if val == "1":
-                    temp = bin_repr[:]
-                    temp[destination] = "0"
-                    # temp = "".join(reversed(temp[:]))
-                    index = int("".join(reversed(temp[:])), 2)
-                    for last_point, bit in enumerate(temp):
-                        if bit == "1":
-                            shortest_distance[subset, destination] = min(
-                                shortest_distance[subset, destination],
-                                shortest_distance[index, last_point]
-                                + distances[last_point, destination]
-                            )
-
-                else:
-                    pass
+                pass
 
     min_dis = np.inf
-    for i in range(num_of_locations):
-        if shortest_distance[-1, i]+ distances[i, 0] < min_dis:
-            min_dis = shortest_distance[-1, i]+ distances[i, 0]
+    for i in range(1, num_of_locations):
+        if shortest_distance[-1, i-1]+ distances[i, 0] < min_dis:
+            min_dis = shortest_distance[-1, i-1]+ distances[i, 0]
 
     return min_dis
 

@@ -8,6 +8,12 @@ Problem has been solved using 2 methods.
 2) Papadimitriou's algorithm
     a) Runs in (n^2*logn) times
     b) Probability of accuracy (1 - 1/n)
+tried: 
+
+Answer: 101100
+
+problem 0 satisfiable: False
+time_taken for problem 0 is: 12988.922623157501
 """
 
 from collections import deque, defaultdict

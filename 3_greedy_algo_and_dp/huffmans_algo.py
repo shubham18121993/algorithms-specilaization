@@ -51,13 +51,14 @@ def huffman_algo(lst):
 		weight1, len1 = pop_elem()
 		weight2, len2 = pop_elem()
 		weight = weight1 + weight2
-		length = min(len1, len2) + 1
+		length = max(len1, len2) + 1  # for max depth
+		length = min(len1, len2) + 1  # for min depth
 		insert_elem((weight, length))
 	print(lst)
 	return lst[0][1]
 
 
-with open("huffman.txt", 'r') as f0:
+with open("../../dataset/course3/huffman.txt", 'r') as f0:
 	lines = f0.readlines()
 
 lst = []

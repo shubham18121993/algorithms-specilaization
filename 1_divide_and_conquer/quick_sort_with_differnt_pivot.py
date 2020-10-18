@@ -10,6 +10,7 @@ def quick_sort_first_pivot(lst):
     n = len(lst)
     inversions = n-1
     if n <= 1:
+        inversions = max(0, inversions)
         return lst, inversions
 
     pivot = lst[0]
@@ -29,6 +30,7 @@ def quick_sort_last_pivot(lst):
     n = len(lst)
     inversions = n-1
     if n <= 1:
+        inversions = max(0, inversions)
         return lst, inversions
 
     lst[0], lst[-1] = lst[-1], lst[0]
@@ -42,6 +44,7 @@ def quick_sort_last_pivot(lst):
     lst1, inverions_left = quick_sort_last_pivot(lst[:track-1])
     lst2, inverions_right = quick_sort_last_pivot(lst[track:])
     inversions = inverions_left + inversions + inverions_right
+
     return lst1 + [pivot] + lst2, inversions
 
 
@@ -49,15 +52,24 @@ def quick_sort_median_pivot(lst):
     n = len(lst)
     inversions = n-1
     if n <= 1:
+        inversions = max(0, inversions)
         return lst, inversions
 
     
-    pivot = min(lst[0], lst[n//2], lst[-1])
-    if pivot != lst[0]:
-        if pivot == lst[n//2]:
-            lst[0], lst[n//2] = lst[n//2], lst[0]
-        else:
-            lst[0], lst[-1] = lst[-1], lst[0]
+
+    temp = [lst[0], lst[(n-1)//2], lst[-1]]
+    temp.sort()
+
+    if lst[0] == temp[1]:
+        pivot = lst[0]
+
+    elif lst[(n-1)//2] == temp[1]:
+        lst[0], lst[(n-1)//2] = lst[(n-1)//2], lst[0]
+        pivot = lst[0]
+
+    else:
+        lst[0], lst[-1] = lst[-1], lst[0]
+        pivot = lst[0]
 
     track = 1
     for i in range(1, n):
@@ -73,10 +85,16 @@ def quick_sort_median_pivot(lst):
 
 
 if __name__ == "__main__":
-    with open("./DataSet/QuickSort.txt", 'r') as f0:
+    with open("../../dataset/course1/QuickSort.txt", 'r') as f0:
         lines = f0.readlines()
     f0.close()
     lst = [int(line.strip()) for line in lines]
   
-    _, inversions = quick_sort_median_pivot(lst)
+    _, inversions = quick_sort_first_pivot(lst[:])
+    print(inversions)
+
+    _, inversions = quick_sort_last_pivot(lst[:])
+    print(inversions)
+
+    _, inversions = quick_sort_median_pivot(lst[:])
     print(inversions)

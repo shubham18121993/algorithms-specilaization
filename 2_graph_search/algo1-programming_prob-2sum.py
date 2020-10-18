@@ -77,6 +77,7 @@ class LinkedList:
 def get_count_of_sum_by_hash(lst):
     count = 0
     hash_list = [LinkedList() for _ in range(2000000)]
+    target_val = []
 
     for elem in lst:
         hash_val = get_hash_val(elem)
@@ -103,6 +104,7 @@ def get_count_of_sum_by_hash(lst):
 def get_count_of_sum_by_sort(lst):
     lst1 = sorted(lst)
     count = 0
+    target_val = set()
     prev_elem = math.inf
     next_elem = math.inf
     len_lst = len(lst1)
@@ -120,6 +122,7 @@ def get_count_of_sum_by_sort(lst):
                 if sum_val >= -10000:
                     if sum_val <= 10000:
                         track+=1
+                        target_val.add(sum_val)
                 else:
                     break
             next_elem = lst1[j]
@@ -132,22 +135,22 @@ def get_count_of_sum_by_sort(lst):
             next_elem = math.inf
 
         prev_elem = elem
-    return count
+    return count, len(target_val)
 
 
 if __name__ == "__main__":
-    with open('algo1-programming_prob-2sum.txt', 'r') as f0:
+    with open('../../dataset/course2/algo1-programming_prob-2sum.txt', 'r') as f0:
         lines = f0.readlines()
 
-    # lst = []
-    # for line in lines:
-    #     lst.append(int(line.strip()))
-    lst = [i for i in range(1000000)]
+    lst = []
+    for line in lines:
+        lst.append(int(line.strip()))
+    # lst = [i for i in range(1000000)]
 
     start_time = time.time()
-    count1 = get_count_of_sum_by_sort(lst)
+    count1, target = get_count_of_sum_by_sort(lst)
     end_time =  time.time()
-    print(f"count by sort: {count1}, time taken: {end_time-start_time}")
+    print(f"count by sort: {count1}, target: {target}, time taken: {end_time-start_time}")
 
     start_time = time.time()
     count1 = get_count_of_sum_by_hash(lst)
