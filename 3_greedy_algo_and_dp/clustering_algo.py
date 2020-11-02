@@ -3,7 +3,7 @@
 from collections import defaultdict
 from collections import deque
 
-"""
+
 # k- means clustering algorithm
 class Node():
     def __init__(self, val):
@@ -54,7 +54,7 @@ def clustering(edges, clusters, node_count):
     return cost, edges[i]
 
 # print(clustering(edge_costs, CLUSTERS, node_count))
-"""
+
 
 # big clusters
 
